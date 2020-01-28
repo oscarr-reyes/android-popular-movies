@@ -2,6 +2,8 @@ package dev.oscarreyes.popularmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -14,6 +16,7 @@ import android.widget.ProgressBar;
 import java.io.BufferedReader;
 import java.util.Objects;
 
+import dev.oscarreyes.popularmovies.adapter.MovieAdapter;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.io.HTTP;
@@ -22,7 +25,6 @@ import dev.oscarreyes.popularmovies.io.HTTP;
  * Common project requirements
  */
 // TODO: Replace ConstraintLayout with a GridLayout in the main activity view
-// TODO: Add a spinner in the main view for loading feedback
 // TODO: Create Detail activity for selecting a movie item
 // TODO: Add title, release date, movie poster, vote average, and plot synopsis for Detail activity
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 	private static final int PERMISSION_CODE = 101;
 
 	private ProgressBar progressBar;
+	private RecyclerView moviesRecycler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 		MovieDB.setApiKey(apiKey);
 
 		this.loadViews();
+
+		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+		this.moviesRecycler.setLayoutManager(layoutManager);
+		this.moviesRecycler.setHasFixedSize(true);
 	}
 
 	@Override
@@ -71,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 				Log.d(TAG, String.valueOf(collection.getPage()));
 
 				this.progressBar.setVisibility(View.INVISIBLE);
+				this.setupAdapter(collection);
 			});
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
@@ -79,7 +88,14 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	private void setupAdapter(MovieCollection movieCollection) {
+		MovieAdapter movieAdapter = new MovieAdapter(movieCollection);
+
+		this.moviesRecycler.setAdapter(movieAdapter);
+	}
+
 	private void loadViews() {
+		this.moviesRecycler = this.findViewById(R.id.rv_movies);
 		this.progressBar = this.findViewById(R.id.progressBar);
 	}
 
