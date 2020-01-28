@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.util.Objects;
 
@@ -28,10 +30,34 @@ public class MovieDB {
 
 	}
 
+	public static void getPopular(APIResult apiResult) throws Exception {
+		final String path = "movie/popular";
+
+		sendRequest(path, httpResponse -> {
+			Gson gson = new Gson();
+
+			MovieCollection collection = gson.fromJson(httpResponse.getBody(), MovieCollection.class);
+
+			apiResult.result(collection);
+		});
+	}
+
 	public static void getRated(HTTP.CallbackResponse callbackResponse) throws Exception {
 		final String path = "movie/top_rated";
 
 		sendRequest(path, callbackResponse);
+	}
+
+	public static void getRated(APIResult apiResult) throws Exception {
+		final String path = "movie/top_rated";
+
+		sendRequest(path, httpResponse -> {
+			Gson gson = new Gson();
+
+			MovieCollection collection = gson.fromJson(httpResponse.getBody(), MovieCollection.class);
+
+			apiResult.result(collection);
+		});
 	}
 
 	private static void sendRequest(String path, HTTP.CallbackResponse callbackResponse) throws Exception {
@@ -80,5 +106,9 @@ public class MovieDB {
 				callbackResponse.response(new HTTP.HttpResponse(s, 0));
 			}
 		}.execute(uri.toString());
+	}
+
+	public interface APIResult {
+		void result(MovieCollection collection);
 	}
 }

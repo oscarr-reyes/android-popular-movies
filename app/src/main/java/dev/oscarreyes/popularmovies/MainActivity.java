@@ -13,6 +13,7 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.util.Objects;
 
+import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.io.HTTP;
 
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 		MovieDB.setApiKey(apiKey);
 
 		try {
-			MovieDB.getPopular((HTTP.HttpResponse response) -> {
-				Log.d(TAG, String.format("Response: %s", response.getBody()));
+			MovieDB.getRated((MovieDB.APIResult) collection -> {
+				Log.d(TAG, String.valueOf(collection.getPage()));
 			});
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
