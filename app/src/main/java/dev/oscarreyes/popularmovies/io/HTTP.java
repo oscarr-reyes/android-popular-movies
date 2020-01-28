@@ -184,4 +184,26 @@ public class HTTP {
 	public enum RequestMethod {
 		GET, POST
 	}
+
+	public static class HttpResponse {
+		private String body;
+		private int status;
+
+		public HttpResponse(String body, int status) {
+			this.body = body;
+			this.status = status;
+		}
+
+		public String getBody() {
+			return body;
+		}
+
+		public int getStatus() {
+			return status;
+		}
+	}
+
+	public interface CallbackResponse {
+		void response(HttpResponse httpResponse);
+	}
 }

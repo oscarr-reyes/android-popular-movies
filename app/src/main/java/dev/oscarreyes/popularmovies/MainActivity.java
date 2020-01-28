@@ -13,6 +13,7 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.util.Objects;
 
+import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.io.HTTP;
 
 /*
@@ -48,7 +49,19 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void onClick(View view) {
-		new AsyncRequest().execute("https://jsonplaceholder.typicode.com/todos/1");
+		final String apiKey = this.getString(R.string.moviedb_api_key);
+
+		MovieDB.setApiKey(apiKey);
+
+		try {
+			MovieDB.getPopular((HTTP.HttpResponse response) -> {
+				Log.d(TAG, String.format("Response: %s", response.getBody()));
+			});
+		} catch (Exception e) {
+			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
+
+			e.printStackTrace();
+		}
 	}
 
 	private void checkPermissions() {
@@ -64,38 +77,4 @@ public class MainActivity extends AppCompatActivity {
 			this.requestPermissions(PERMISSIONS, PERMISSION_CODE);
 		}
 	}
-
-	public class AsyncRequest extends AsyncTask<String, Void, String> {
-		@Override
-		protected String doInBackground(String... strings) {
-			String url = strings[0];
-			StringBuilder stringBuilder = new StringBuilder();
-
-			try {
-				HTTP http = new HTTP(url, HTTP.RequestMethod.GET);
-
-				final BufferedReader reader = http.send();
-
-				String chunk;
-
-				while ((chunk = reader.readLine()) != null) {
-					stringBuilder.append(chunk);
-				}
-
-				reader.close();
-			} catch (Exception e) {
-				Log.e(TAG, Objects.requireNonNull(e.getMessage()));
-
-				e.printStackTrace();
-			}
-
-			return stringBuilder.toString();
-		}
-
-		@Override
-		protected void onPostExecute(String s) {
-			Log.i(TAG, String.format("Response: %s", s));
-		}
-	}
-
 }
