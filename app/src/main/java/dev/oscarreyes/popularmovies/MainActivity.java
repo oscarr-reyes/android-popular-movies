@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.util.Objects;
@@ -41,28 +42,45 @@ public class MainActivity extends AppCompatActivity {
 	private static final String[] PERMISSIONS = new String[]{Manifest.permission.INTERNET};
 	private static final int PERMISSION_CODE = 101;
 
+	private ProgressBar progressBar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		this.checkPermissions();
-	}
 
-	public void onClick(View view) {
 		final String apiKey = this.getString(R.string.moviedb_api_key);
 
 		MovieDB.setApiKey(apiKey);
 
+		this.loadViews();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		this.fetchMovieCollection();
+	}
+
+	private void fetchMovieCollection() {
 		try {
 			MovieDB.getRated((MovieDB.APIResult) collection -> {
 				Log.d(TAG, String.valueOf(collection.getPage()));
+
+				this.progressBar.setVisibility(View.INVISIBLE);
 			});
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
 
 			e.printStackTrace();
 		}
+	}
+
+	private void loadViews() {
+		this.progressBar = this.findViewById(R.id.progressBar);
 	}
 
 	private void checkPermissions() {
