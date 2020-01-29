@@ -13,9 +13,11 @@ import dev.oscarreyes.popularmovies.io.HTTP;
 
 public class MovieDB {
 	private static final String TAG = MovieDB.class.getSimpleName();
-	private static final String HOST = "api.themoviedb.org";
-	private static final String VERSION = "3";
 	private static final String QUERY_API_KEY = "api_key";
+
+	public static final String API_HOST = "api.themoviedb.org";
+	public static final String IMAGE_HOST = "image.tmdb.org";
+	public static final String VERSION = "3";
 
 	private static String apiKey;
 
@@ -67,7 +69,7 @@ public class MovieDB {
 
 		final Uri uri = new Uri.Builder()
 			.scheme("https")
-			.authority(HOST)
+			.authority(API_HOST)
 			.appendPath(VERSION)
 			.appendPath(path)
 			.build();

@@ -1,9 +1,14 @@
 package dev.oscarreyes.popularmovies.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Movie {
 	private int id;
 	private String title;
 	private String overview;
+
+	@SerializedName("poster_path")
+	private String posterPath;
 
 	public Movie() {
 	}
@@ -30,5 +35,13 @@ public class Movie {
 
 	public void setOverview(String overview) {
 		this.overview = overview;
+	}
+
+	public String getPosterPath() {
+		return posterPath;
+	}
+
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
 	}
 }

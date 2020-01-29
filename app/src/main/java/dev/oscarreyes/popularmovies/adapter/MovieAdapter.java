@@ -14,8 +14,9 @@ import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-	private final MovieCollection movieCollection;
+	private static final String TAG = MovieAdapter.class.getSimpleName();
 
+	private final MovieCollection movieCollection;
 
 	public MovieAdapter(MovieCollection movieCollection) {
 		this.movieCollection = movieCollection;
