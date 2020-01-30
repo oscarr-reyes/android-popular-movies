@@ -23,9 +23,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 	private static final String TAG = MovieAdapter.class.getSimpleName();
 
 	private final MovieCollection movieCollection;
+	private final ItemClickListener onClickListener;
 
-	public MovieAdapter(MovieCollection movieCollection) {
+	public interface ItemClickListener {
+		void onItemClick(int index);
+	}
+
+	public MovieAdapter(MovieCollection movieCollection, ItemClickListener onClickListener) {
 		this.movieCollection = movieCollection;
+		this.onClickListener = onClickListener;
 	}
 
 	@NonNull
@@ -51,7 +57,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		return this.movieCollection.getResults().size();
 	}
 
-	class MovieViewHolder extends RecyclerView.ViewHolder {
+	class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private TextView title;
 		private ImageView image;
 		private boolean imageLoaded = false;
@@ -61,6 +67,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
 			this.title = itemView.findViewById(R.id.movie_item_title);
 			this.image = itemView.findViewById(R.id.movie_item_poster);
+
+			itemView.setOnClickListener(this);
 		}
 
 		void bind(Movie movie) {
@@ -91,6 +99,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 						}
 					});
 			}
+		}
+
+		@Override
+		public void onClick(View v) {
+			final int position = this.getAdapterPosition();
+			onClickListener.onItemClick(position);
 		}
 	}
 }

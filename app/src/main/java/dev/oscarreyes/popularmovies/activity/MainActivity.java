@@ -1,4 +1,4 @@
-package dev.oscarreyes.popularmovies;
+package dev.oscarreyes.popularmovies.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -6,20 +6,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import java.io.BufferedReader;
+import com.google.gson.Gson;
+
 import java.util.Objects;
 
+import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.adapter.MovieAdapter;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
-import dev.oscarreyes.popularmovies.io.HTTP;
+import dev.oscarreyes.popularmovies.entity.Movie;
 
 /*
  * Common project requirements
@@ -89,9 +91,22 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void setupAdapter(MovieCollection movieCollection) {
-		MovieAdapter movieAdapter = new MovieAdapter(movieCollection);
+		MovieAdapter movieAdapter = new MovieAdapter(movieCollection, index -> {
+			final Gson gson = new Gson();
+			final Movie movie = movieCollection.getResults().get(index);
+
+			this.transitionToDetail(gson.toJson(movie));
+		});
 
 		this.moviesRecycler.setAdapter(movieAdapter);
+	}
+
+	private void transitionToDetail(String data) {
+		Intent intent = new Intent(this, DetailActivity.class);
+
+		intent.putExtra(Intent.EXTRA_TEXT, data);
+
+		this.startActivity(intent);
 	}
 
 	private void loadViews() {
