@@ -10,6 +10,12 @@ public class Movie {
 	@SerializedName("poster_path")
 	private String posterPath;
 
+	@SerializedName("vote_count")
+	private String voteCount;
+
+	@SerializedName("release_date")
+	private String releaseDate;
+
 	public Movie() {
 	}
 
@@ -43,5 +49,21 @@ public class Movie {
 
 	public void setPosterPath(String posterPath) {
 		this.posterPath = posterPath;
+	}
+
+	public String getVoteCount() {
+		return voteCount;
+	}
+
+	public void setVoteCount(String voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
 	}
 }
