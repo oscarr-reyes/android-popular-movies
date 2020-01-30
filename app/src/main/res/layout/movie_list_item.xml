@@ -3,12 +3,16 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="@null"
+	android:layout_margin="10dp"
+	android:elevation="6dp"
 	android:outlineProvider="bounds">
 
 	<ImageView
 		android:id="@+id/movie_item_poster"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="320dp"
+		android:adjustViewBounds="true"
+		android:scaleType="centerCrop"
 		android:src="@drawable/placeholder" />
 
 	<FrameLayout
