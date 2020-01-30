@@ -25,16 +25,6 @@ import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
-/*
- * User interface requirements
- */
-// TODO: View gets updated correctly when an user changes the sort criteria
-
-/*
- * Network API implementation
- */
-// TODO: app queries the /movie/popular or /movie/top_rated API for the sort criteria in settings menu
-
 public class MainActivity extends AppCompatActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final String[] PERMISSIONS = new String[]{Manifest.permission.INTERNET};
@@ -44,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private ProgressBar progressBar;
 	private RecyclerView moviesRecycler;
-	private MenuItem menuItem;
+	private Menu menu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		this.getMenuInflater().inflate(R.menu.main_menu, menu);
+		this.menu = menu;
+
+		this.getMenuInflater().inflate(R.menu.main_menu, this.menu);
+
+		this.setMenuItemTitle();
 
 		return true;
 	}
@@ -92,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 			this.selectedCriteria = "top_rated";
 		}
 
+		this.setMenuItemTitle();
 		this.fetchMovieCollection();
 
 		return true;
@@ -133,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
 	private void loadViews() {
 		this.moviesRecycler = this.findViewById(R.id.rv_movies);
 		this.progressBar = this.findViewById(R.id.progressBar);
-		this.menuItem = this.findViewById(R.id.action_switch_movie_criteria);
 	}
 
 	private void checkPermissions() {
@@ -147,6 +141,16 @@ public class MainActivity extends AppCompatActivity {
 
 		if (!granted) {
 			this.requestPermissions(PERMISSIONS, PERMISSION_CODE);
+		}
+	}
+
+	private void setMenuItemTitle() {
+		MenuItem menuItem = this.menu.findItem(R.id.action_switch_movie_criteria);
+
+		if (this.selectedCriteria.equals("top_rated")) {
+			menuItem.setTitle(R.string.menu_switch_popular);
+		} else {
+			menuItem.setTitle(R.string.menu_switch_top_rated);
 		}
 	}
 
