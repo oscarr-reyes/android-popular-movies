@@ -1,10 +1,5 @@
 package dev.oscarreyes.popularmovies.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
 		this.loadViews();
 
-		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+		GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+		layoutManager.setOrientation(RecyclerView.VERTICAL);
 
 		this.moviesRecycler.setLayoutManager(layoutManager);
 		this.moviesRecycler.setHasFixedSize(true);
