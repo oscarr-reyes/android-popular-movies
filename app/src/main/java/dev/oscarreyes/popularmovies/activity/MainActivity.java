@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -24,17 +26,9 @@ import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
 /*
- * Common project requirements
- */
-// TODO: Replace ConstraintLayout with a GridLayout in the main activity view
-// TODO: Create Detail activity for selecting a movie item
-// TODO: Add title, release date, movie poster, vote average, and plot synopsis for Detail activity
-
-/*
  * User interface requirements
  */
 // TODO: View gets updated correctly when an user changes the sort criteria
-// TODO: Movie details is started when a poster thumbnail is selected
 
 /*
  * Network API implementation
@@ -46,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
 	private static final String[] PERMISSIONS = new String[]{Manifest.permission.INTERNET};
 	private static final int PERMISSION_CODE = 101;
 
+	private String selectedCriteria = "top_rated";
+
 	private ProgressBar progressBar;
 	private RecyclerView moviesRecycler;
+	private MenuItem menuItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +74,36 @@ public class MainActivity extends AppCompatActivity {
 		this.fetchMovieCollection();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		this.getMenuInflater().inflate(R.menu.main_menu, menu);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.moviesRecycler.setVisibility(View.INVISIBLE);
+
+		if (this.selectedCriteria.equals("top_rated")) {
+			this.selectedCriteria = "popular";
+		} else {
+			this.selectedCriteria = "top_rated";
+		}
+
+		this.fetchMovieCollection();
+
+		return true;
+	}
+
 	private void fetchMovieCollection() {
 		try {
-			MovieDB.getRated((MovieDB.APIResult) collection -> {
-				Log.d(TAG, String.valueOf(collection.getPage()));
-
-				this.progressBar.setVisibility(View.INVISIBLE);
-				this.setupAdapter(collection);
-			});
+			if(this.selectedCriteria.equals("top_rated")) {
+				MovieDB.getRated(this::dataResponse);
+			} else {
+				MovieDB.getPopular(this::dataResponse);
+			}
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
 
@@ -114,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 	private void loadViews() {
 		this.moviesRecycler = this.findViewById(R.id.rv_movies);
 		this.progressBar = this.findViewById(R.id.progressBar);
+		this.menuItem = this.findViewById(R.id.action_switch_movie_criteria);
 	}
 
 	private void checkPermissions() {
@@ -128,5 +148,11 @@ public class MainActivity extends AppCompatActivity {
 		if (!granted) {
 			this.requestPermissions(PERMISSIONS, PERMISSION_CODE);
 		}
+	}
+
+	private void dataResponse(MovieCollection collection) {
+		this.progressBar.setVisibility(View.INVISIBLE);
+		this.moviesRecycler.setVisibility(View.VISIBLE);
+		this.setupAdapter(collection);
 	}
 }
