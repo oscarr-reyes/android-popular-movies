@@ -24,13 +24,14 @@ import dev.oscarreyes.popularmovies.adapter.MovieAdapter;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.entity.Movie;
+import dev.oscarreyes.popularmovies.util.SearchCriteria;
 
 public class MainActivity extends AppCompatActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final String[] PERMISSIONS = new String[]{Manifest.permission.INTERNET};
 	private static final int PERMISSION_CODE = 101;
 
-	private String selectedCriteria = "top_rated";
+	private SearchCriteria selectedCriteria = SearchCriteria.TOP_RATED;
 
 	private ProgressBar progressBar;
 	private RecyclerView moviesRecycler;
@@ -80,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.moviesRecycler.setVisibility(View.INVISIBLE);
 
-		if (this.selectedCriteria.equals("top_rated")) {
-			this.selectedCriteria = "popular";
+		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
+			this.selectedCriteria = SearchCriteria.POPULAR;
 		} else {
-			this.selectedCriteria = "top_rated";
+			this.selectedCriteria = SearchCriteria.TOP_RATED;
 		}
 
 		this.setMenuItemTitle();
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void fetchMovieCollection() {
 		try {
-			if(this.selectedCriteria.equals("top_rated")) {
+			if(this.selectedCriteria == SearchCriteria.TOP_RATED) {
 				MovieDB.getRated(this::dataResponse);
 			} else {
 				MovieDB.getPopular(this::dataResponse);
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 	private void setMenuItemTitle() {
 		MenuItem menuItem = this.menu.findItem(R.id.action_switch_movie_criteria);
 
-		if (this.selectedCriteria.equals("top_rated")) {
+		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
 			menuItem.setTitle(R.string.menu_switch_popular);
 		} else {
 			menuItem.setTitle(R.string.menu_switch_top_rated);
