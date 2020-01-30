@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private SearchCriteria selectedCriteria = SearchCriteria.TOP_RATED;
 
+	private ActionBar actionBar;
 	private ProgressBar progressBar;
 	private RecyclerView moviesRecycler;
 	private Menu menu;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
 		this.moviesRecycler.setLayoutManager(layoutManager);
 		this.moviesRecycler.setHasFixedSize(true);
+
+		this.actionBar = this.getSupportActionBar();
 	}
 
 	@Override
@@ -63,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 		super.onStart();
 
 		this.fetchMovieCollection();
+
+		this.setToolbarTitle();
 	}
 
 	@Override
@@ -153,11 +159,21 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			menuItem.setTitle(R.string.menu_switch_top_rated);
 		}
+
+		this.setToolbarTitle();
 	}
 
 	private void dataResponse(MovieCollection collection) {
 		this.progressBar.setVisibility(View.INVISIBLE);
 		this.moviesRecycler.setVisibility(View.VISIBLE);
 		this.setupAdapter(collection);
+	}
+
+	private void setToolbarTitle() {
+		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
+			this.actionBar.setTitle(R.string.menu_switch_top_rated);
+		} else {
+			this.actionBar.setTitle(R.string.menu_switch_popular);
+		}
 	}
 }

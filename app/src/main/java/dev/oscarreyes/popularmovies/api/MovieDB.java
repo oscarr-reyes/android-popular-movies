@@ -25,13 +25,6 @@ public class MovieDB {
 		apiKey = key;
 	}
 
-	public static void getPopular(final HTTP.CallbackResponse callbackResponse) throws Exception {
-		final String path = "movie/popular";
-
-		sendRequest(path, callbackResponse);
-
-	}
-
 	public static void getPopular(APIResult apiResult) throws Exception {
 		final String path = "movie/popular";
 
@@ -42,12 +35,6 @@ public class MovieDB {
 
 			apiResult.result(collection);
 		});
-	}
-
-	public static void getRated(HTTP.CallbackResponse callbackResponse) throws Exception {
-		final String path = "movie/top_rated";
-
-		sendRequest(path, callbackResponse);
 	}
 
 	public static void getRated(APIResult apiResult) throws Exception {
