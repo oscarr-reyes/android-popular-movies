@@ -71,7 +71,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 				final int imageWidth = 185;
 
 				final String url = String.format(
-					"http://%s/t/p/w%d/%s"
+					"https://%s/t/p/w%d/%s"
 					, MovieDB.IMAGE_HOST, imageWidth, movie.getPosterPath()
 				);
 
