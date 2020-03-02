@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 		this.moviesRecycler.setHasFixedSize(true);
 
 		this.actionBar = this.getSupportActionBar();
-		// this.movieDatabase = MovieDatabase.getInstance(this);
+		this.movieDatabase = MovieDatabase.getInstance(this);
 	}
 
 	@Override

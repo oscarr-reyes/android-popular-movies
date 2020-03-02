@@ -1,14 +1,13 @@
 package dev.oscarreyes.popularmovies.database.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movie")
-public class Movie implements Parcelable {
+public class Movie {
 	@PrimaryKey(autoGenerate = true)
 	private int id;
 
@@ -27,6 +26,17 @@ public class Movie implements Parcelable {
 	private String title;
 	private String overview;
 
+	public Movie(int id, int apiId, String title, String overview){
+		this.id = id;
+		this.apiId = apiId;
+		this.title = title;
+		this.overview = overview;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 	public int getApiId() {
 		return apiId;
 	}
@@ -43,39 +53,39 @@ public class Movie implements Parcelable {
 		return overview;
 	}
 
-	private Movie(Parcel parcel) {
-		this.apiId = parcel.readInt();
-		this.posterPath = parcel.readString();
-		this.voteCount = parcel.readString();
-		this.releaseDate = parcel.readString();
-		this.title = parcel.readString();
-		this.overview = parcel.readString();
+	public String getVoteCount() {
+		return voteCount;
 	}
 
-	@Override
-	public int describeContents() {
-		return 0;
+	public String getReleaseDate() {
+		return releaseDate;
 	}
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(this.apiId);
-		dest.writeString(this.posterPath);
-		dest.writeString(this.voteCount);
-		dest.writeString(this.releaseDate);
-		dest.writeString(this.title);
-		dest.writeString(this.overview);
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public static final Parcelable.Creator<Movie> CREATOR = new Creator<Movie>() {
-		@Override
-		public Movie createFromParcel(Parcel source) {
-			return new Movie(source);
-		}
+	public void setApiId(int apiId) {
+		this.apiId = apiId;
+	}
 
-		@Override
-		public Movie[] newArray(int size) {
-			return new Movie[size];
-		}
-	};
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
+	}
+
+	public void setVoteCount(String voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
 }
