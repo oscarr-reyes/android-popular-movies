@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
-		android:id="@+id/action_popular"
+		android:id="@+id/action_rated"
 		android:orderInCategory="1"
-		android:title="@string/menu_switch_popular"
+		android:title="@string/menu_switch_top_rated"
 		app:showAsAction="never" />
 
 	<item
-		android:id="@+id/action_rated"
+		android:id="@+id/action_popular"
 		android:orderInCategory="2"
-		android:title="@string/menu_switch_top_rated"
+		android:title="@string/menu_switch_popular"
 		app:showAsAction="never" />
 
 	<item

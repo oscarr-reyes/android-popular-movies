@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onStart();
 
 		this.fetchMovieCollection();
+		this.setSubtitle();
 	}
 
 	@Override
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 		this.moviesRecycler.setVisibility(View.INVISIBLE);
 
 		final int itemId = item.getItemId();
-		boolean searchAPI = true;
 
 		switch (itemId) {
 			case R.id.action_popular:
@@ -97,17 +97,19 @@ public class MainActivity extends AppCompatActivity {
 				this.selectedCriteria = SearchCriteria.TOP_RATED;
 				break;
 			case R.id.action_favorite:
-				searchAPI = false;
+				this.selectedCriteria = SearchCriteria.FAVORITE;
 				break;
 		}
 
-		if (searchAPI) {
+		if (this.selectedCriteria != SearchCriteria.FAVORITE) {
 			Log.d(TAG, "Show results from API");
 			this.fetchMovieCollection();
 		} else {
 			// TODO: Show favorite movies
 			Log.d(TAG, "Show results from Database");
 		}
+
+		this.setSubtitle();
 
 		return true;
 	}
@@ -168,5 +170,18 @@ public class MainActivity extends AppCompatActivity {
 		this.progressBar.setVisibility(View.INVISIBLE);
 		this.moviesRecycler.setVisibility(View.VISIBLE);
 		this.setupAdapter(collection);
+	}
+
+	private void setSubtitle() {
+		switch (this.selectedCriteria) {
+			case TOP_RATED:
+				this.actionBar.setSubtitle(R.string.menu_switch_top_rated);
+				break;
+			case POPULAR:
+				this.actionBar.setSubtitle(R.string.menu_switch_popular);
+				break;
+			case FAVORITE:
+				this.actionBar.setSubtitle(R.string.menu_switch_favorite);
+		}
 	}
 }
