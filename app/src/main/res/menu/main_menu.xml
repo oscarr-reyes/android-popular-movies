@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
-		android:id="@+id/action_switch_movie_criteria"
+		android:id="@+id/action_popular"
 		android:orderInCategory="1"
-		app:showAsAction="never"
-		android:title="@string/menu_switch_default"/>
+		android:title="@string/menu_switch_popular"
+		app:showAsAction="never" />
+
+	<item
+		android:id="@+id/action_rated"
+		android:orderInCategory="2"
+		android:title="@string/menu_switch_top_rated"
+		app:showAsAction="never" />
+
+	<item
+		android:id="@+id/action_favorite"
+		android:orderInCategory="3"
+		android:title="@string/menu_switch_favorite"
+		app:showAsAction="never" />
 </menu>

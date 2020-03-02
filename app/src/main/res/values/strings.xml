@@ -3,5 +3,6 @@
 	<string name="moviedb_api_key">171e664d42600962163575e368face04</string>
 	<string name="menu_switch_top_rated">Top rated</string>
 	<string name="menu_switch_popular">Popular</string>
+	<string name="menu_switch_favorite">Favorite</string>
 	<string name="menu_switch_default">Switch</string>
 </resources>

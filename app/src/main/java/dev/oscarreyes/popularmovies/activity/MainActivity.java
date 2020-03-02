@@ -24,6 +24,7 @@ import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.adapter.MovieAdapter;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
 import dev.oscarreyes.popularmovies.api.MovieDB;
+import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.entity.Movie;
 import dev.oscarreyes.popularmovies.util.SearchCriteria;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 	private ProgressBar progressBar;
 	private RecyclerView moviesRecycler;
 	private Menu menu;
+	private MovieDatabase movieDatabase;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 		this.moviesRecycler.setHasFixedSize(true);
 
 		this.actionBar = this.getSupportActionBar();
+		// this.movieDatabase = MovieDatabase.getInstance(this);
 	}
 
 	@Override
@@ -67,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
 		super.onStart();
 
 		this.fetchMovieCollection();
-
-		this.setToolbarTitle();
 	}
 
 	@Override
@@ -76,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
 		this.menu = menu;
 
 		this.getMenuInflater().inflate(R.menu.main_menu, this.menu);
-
-		this.setMenuItemTitle();
 
 		return true;
 	}
@@ -87,14 +86,28 @@ public class MainActivity extends AppCompatActivity {
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.moviesRecycler.setVisibility(View.INVISIBLE);
 
-		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
-			this.selectedCriteria = SearchCriteria.POPULAR;
-		} else {
-			this.selectedCriteria = SearchCriteria.TOP_RATED;
+		final int itemId = item.getItemId();
+		boolean searchAPI = true;
+
+		switch (itemId) {
+			case R.id.action_popular:
+				this.selectedCriteria = SearchCriteria.POPULAR;
+				break;
+			case R.id.action_rated:
+				this.selectedCriteria = SearchCriteria.TOP_RATED;
+				break;
+			case R.id.action_favorite:
+				searchAPI = false;
+				break;
 		}
 
-		this.setMenuItemTitle();
-		this.fetchMovieCollection();
+		if (searchAPI) {
+			Log.d(TAG, "Show results from API");
+			this.fetchMovieCollection();
+		} else {
+			// TODO: Show favorite movies
+			Log.d(TAG, "Show results from Database");
+		}
 
 		return true;
 	}
@@ -151,29 +164,9 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	private void setMenuItemTitle() {
-		MenuItem menuItem = this.menu.findItem(R.id.action_switch_movie_criteria);
-
-		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
-			menuItem.setTitle(R.string.menu_switch_popular);
-		} else {
-			menuItem.setTitle(R.string.menu_switch_top_rated);
-		}
-
-		this.setToolbarTitle();
-	}
-
 	private void dataResponse(MovieCollection collection) {
 		this.progressBar.setVisibility(View.INVISIBLE);
 		this.moviesRecycler.setVisibility(View.VISIBLE);
 		this.setupAdapter(collection);
-	}
-
-	private void setToolbarTitle() {
-		if (this.selectedCriteria == SearchCriteria.TOP_RATED) {
-			this.actionBar.setTitle(R.string.menu_switch_top_rated);
-		} else {
-			this.actionBar.setTitle(R.string.menu_switch_popular);
-		}
 	}
 }

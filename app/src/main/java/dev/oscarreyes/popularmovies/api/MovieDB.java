@@ -26,6 +26,8 @@ public class MovieDB {
 	}
 
 	public static void getPopular(APIResult apiResult) throws Exception {
+		Log.d(TAG, "Requesting popular movies");
+
 		final String path = "movie/popular";
 
 		sendRequest(path, httpResponse -> {
@@ -38,6 +40,8 @@ public class MovieDB {
 	}
 
 	public static void getRated(APIResult apiResult) throws Exception {
+		Log.d(TAG, "Requesting top rated movies");
+
 		final String path = "movie/top_rated";
 
 		sendRequest(path, httpResponse -> {
