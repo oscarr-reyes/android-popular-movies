@@ -86,13 +86,15 @@ public class DetailActivity extends AppCompatActivity {
 
 		AppExecutor.getInstance()
 			.getDiskIO()
-			.execute(() -> {
-				this.movieDatabase.movieDao().insertMovie(movieRow);
-			});
+			.execute(() -> this.movieDatabase.movieDao().insertMovie(movieRow));
 	}
 
 	private void removeFavorite() {
 		Log.d(TAG, "Removing current movie from favorite");
+
+		AppExecutor.getInstance()
+			.getDiskIO()
+			.execute(() -> this.movieDatabase.movieDao().deleteMovie(this.movie.getId()));
 	}
 
 	public void toggleLike(View view) {
