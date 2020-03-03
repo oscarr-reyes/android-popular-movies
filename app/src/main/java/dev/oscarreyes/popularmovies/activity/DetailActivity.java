@@ -8,13 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.api.MovieAPI;
+import dev.oscarreyes.popularmovies.database.MovieDatabase;
+import dev.oscarreyes.popularmovies.database.model.MovieRow;
 import dev.oscarreyes.popularmovies.entity.Movie;
+import dev.oscarreyes.popularmovies.util.AppExecutor;
 
 public class DetailActivity extends AppCompatActivity {
 	private static final String TAG = DetailActivity.class.getSimpleName();
@@ -23,8 +27,10 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView movieDate;
 	private TextView movieVote;
 	private TextView movieOverview;
+	private ToggleButton movieFavorite;
 	private ImageView movieImage;
 	private Movie movie;
+	private MovieDatabase movieDatabase;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
 		String data = intent.getStringExtra(Intent.EXTRA_TEXT);
 
 		this.movie = new Gson().fromJson(data, Movie.class);
+		this.movieDatabase = MovieDatabase.getInstance(this);
 	}
 
 	@Override
@@ -56,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
 		this.movieDate = this.findViewById(R.id.movie_detail_date);
 		this.movieVote = this.findViewById(R.id.movie_detail_vote);
 		this.movieOverview = this.findViewById(R.id.movie_detail_overview);
+		this.movieFavorite = this.findViewById(R.id.movie_detail_button_favorite);
 	}
 
 	private void loadImage() {
@@ -71,7 +79,29 @@ public class DetailActivity extends AppCompatActivity {
 			.into(this.movieImage);
 	}
 
-	public void like(View view) {
-		Log.d(TAG, "Like this movie");
+	private void makeFavorite() {
+		Log.d(TAG, "Making current movie as favorite");
+
+		MovieRow movieRow = MovieRow.fromEntityAPI(this.movie);
+
+		AppExecutor.getInstance()
+			.getDiskIO()
+			.execute(() -> {
+				this.movieDatabase.movieDao().insertMovie(movieRow);
+			});
+	}
+
+	private void removeFavorite() {
+		Log.d(TAG, "Removing current movie from favorite");
+	}
+
+	public void toggleLike(View view) {
+		final boolean isChecked = this.movieFavorite.isChecked();
+
+		if (isChecked) {
+			makeFavorite();
+		} else {
+			removeFavorite();
+		}
 	}
 }

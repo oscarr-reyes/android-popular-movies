@@ -34,7 +34,7 @@
 					android:layout_height="30dp"
 					android:background="@drawable/button_favorite"
 					android:checked="false"
-					android:onClick="like"
+					android:onClick="toggleLike"
 					android:text=""
 					android:textOff=""
 					android:textOn="" />

@@ -6,9 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import dev.oscarreyes.popularmovies.database.model.Movie;
+import dev.oscarreyes.popularmovies.database.dao.MovieDao;
+import dev.oscarreyes.popularmovies.database.model.MovieRow;
 
-@Database(entities = {Movie.class}, version = 1, exportSchema = false)
+@Database(entities = {MovieRow.class}, version = 1, exportSchema = false)
 public abstract class MovieDatabase extends RoomDatabase {
 	private static final String DATABASE_NAME = "moviedb";
 	private static final Object LOCK = new Object();
@@ -26,4 +27,6 @@ public abstract class MovieDatabase extends RoomDatabase {
 
 		return instance;
 	}
+
+	public abstract MovieDao movieDao();
 }

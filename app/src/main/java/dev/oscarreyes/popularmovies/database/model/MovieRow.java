@@ -1,13 +1,14 @@
 package dev.oscarreyes.popularmovies.database.model;
 
-import android.os.Parcel;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import dev.oscarreyes.popularmovies.entity.Movie;
+
 @Entity(tableName = "movie")
-public class Movie {
+public class MovieRow {
 	@PrimaryKey(autoGenerate = true)
 	private int id;
 
@@ -26,7 +27,11 @@ public class Movie {
 	private String title;
 	private String overview;
 
-	public Movie(int id, int apiId, String title, String overview){
+	@Ignore
+	public MovieRow() {
+	}
+
+	public MovieRow(int id, int apiId, String title, String overview){
 		this.id = id;
 		this.apiId = apiId;
 		this.title = title;
@@ -87,5 +92,18 @@ public class Movie {
 
 	public void setOverview(String overview) {
 		this.overview = overview;
+	}
+
+	public static MovieRow fromEntityAPI(Movie movie) {
+		MovieRow movieRow = new MovieRow();
+
+		movieRow.apiId = movie.getId();
+		movieRow.posterPath = movie.getPosterPath();
+		movieRow.title = movie.getTitle();
+		movieRow.overview = movie.getOverview();
+		movieRow.voteCount = movie.getVoteCount();
+		movieRow.releaseDate = movie.getReleaseDate();
+
+		return movieRow;
 	}
 }
