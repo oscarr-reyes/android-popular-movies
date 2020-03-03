@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import dev.oscarreyes.popularmovies.api.MovieDB;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
 public class DetailActivity extends AppCompatActivity {
+	private static final String TAG = DetailActivity.class.getSimpleName();
 
 	private TextView movieTitle;
 	private TextView movieDate;
@@ -66,5 +69,9 @@ public class DetailActivity extends AppCompatActivity {
 		Picasso.with(this)
 			.load(url)
 			.into(this.movieImage);
+	}
+
+	public void like(View view) {
+		Log.d(TAG, "Like this movie");
 	}
 }

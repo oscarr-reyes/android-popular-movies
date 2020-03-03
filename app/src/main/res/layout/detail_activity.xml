@@ -25,6 +25,24 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:padding="8dp">
+
+				<ToggleButton
+					android:id="@+id/movie_detail_button_favorite"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:background="@drawable/button_favorite"
+					android:checked="false"
+					android:onClick="like"
+					android:text=""
+					android:textOff=""
+					android:textOn="" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
 				android:orientation="vertical"
 				android:padding="8dp">
 
@@ -34,14 +52,16 @@
 					android:layout_height="wrap_content"
 					android:text="MOVIE_TITLE"
 					android:textSize="30sp"
-					android:textStyle="bold" />
+					android:textStyle="bold"
+					tools:text="@string/tool_movie_name" />
 
 				<TextView
 					android:id="@+id/movie_detail_date"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:text="MOVIE_DATE"
-					android:textSize="18sp" />
+					android:textSize="18sp"
+					tools:text="@string/tool_movie_date" />
 
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -59,7 +79,8 @@
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:text="MOVIE_VOTE"
-						android:textSize="18sp" />
+						android:textSize="18sp"
+						tools:text="@string/tool_movie_votes" />
 				</LinearLayout>
 
 				<TextView
@@ -69,7 +90,8 @@
 					android:layout_marginTop="8dp"
 					android:lineSpacingExtra="8sp"
 					android:text="MOVIE_OVERVIEW"
-					android:textSize="24sp" />
+					android:textSize="24sp"
+					tools:text="@string/tool_movie_description" />
 			</LinearLayout>
 		</LinearLayout>
 

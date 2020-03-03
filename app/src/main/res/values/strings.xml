@@ -5,4 +5,10 @@
 	<string name="menu_switch_popular">Popular</string>
 	<string name="menu_switch_favorite">Favorite</string>
 	<string name="menu_switch_default">Switch</string>
+
+	<!--Tool: Placeholder values-->
+	<string name="tool_movie_name">Underworld</string>
+	<string name="tool_movie_date">02/03/2020</string>
+	<string name="tool_movie_votes">30</string>
+	<string name="tool_movie_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium delectus eligendi, est fugiat ipsam iusto labore magnam magni maxime minus molestiae necessitatibus nobis possimus quaerat quasi repudiandae rerum veniam vero?</string>
 </resources>
