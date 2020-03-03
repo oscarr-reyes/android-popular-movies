@@ -23,7 +23,7 @@ import java.util.Objects;
 import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.adapter.MovieAdapter;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
-import dev.oscarreyes.popularmovies.api.MovieDB;
+import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.entity.Movie;
 import dev.oscarreyes.popularmovies.util.SearchCriteria;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 		final String apiKey = this.getString(R.string.moviedb_api_key);
 
-		MovieDB.setApiKey(apiKey);
+		MovieAPI.setApiKey(apiKey);
 
 		this.loadViews();
 
@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
 	private void fetchMovieCollection() {
 		try {
 			if(this.selectedCriteria == SearchCriteria.TOP_RATED) {
-				MovieDB.getRated(this::dataResponse);
+				MovieAPI.getRated(this::dataResponse);
 			} else {
-				MovieDB.getPopular(this::dataResponse);
+				MovieAPI.getPopular(this::dataResponse);
 			}
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));

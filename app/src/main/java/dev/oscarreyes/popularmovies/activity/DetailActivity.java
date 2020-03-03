@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import dev.oscarreyes.popularmovies.R;
-import dev.oscarreyes.popularmovies.api.MovieDB;
+import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
 public class DetailActivity extends AppCompatActivity {
@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
 
 		final String url = String.format(
 			"https://%s/t/p/w%d/%s"
-			, MovieDB.IMAGE_HOST, imageWidth, this.movie.getPosterPath()
+			, MovieAPI.IMAGE_HOST, imageWidth, this.movie.getPosterPath()
 		);
 
 		Picasso.with(this)

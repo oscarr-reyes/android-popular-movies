@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.api.MovieCollection;
-import dev.oscarreyes.popularmovies.api.MovieDB;
+import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.entity.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
@@ -80,7 +80,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
 				final String url = String.format(
 					"https://%s/t/p/w%d/%s"
-					, MovieDB.IMAGE_HOST, imageWidth, movie.getPosterPath()
+					, MovieAPI.IMAGE_HOST, imageWidth, movie.getPosterPath()
 				);
 
 				Log.d(TAG, String.format("Download image: %s", url));

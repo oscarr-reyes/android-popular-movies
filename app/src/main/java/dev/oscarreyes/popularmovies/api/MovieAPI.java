@@ -11,8 +11,8 @@ import java.util.Objects;
 
 import dev.oscarreyes.popularmovies.io.HTTP;
 
-public class MovieDB {
-	private static final String TAG = MovieDB.class.getSimpleName();
+public class MovieAPI {
+	private static final String TAG = MovieAPI.class.getSimpleName();
 	private static final String QUERY_API_KEY = "api_key";
 
 	public static final String API_HOST = "api.themoviedb.org";
