@@ -1,6 +1,9 @@
 package dev.oscarreyes.popularmovies.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +22,8 @@ import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.database.model.MovieRow;
 import dev.oscarreyes.popularmovies.entity.Movie;
 import dev.oscarreyes.popularmovies.util.AppExecutor;
+import dev.oscarreyes.popularmovies.viewmodel.MovieDetailsViewModel;
+import dev.oscarreyes.popularmovies.viewmodel.MovieDetailsViewModelFactory;
 
 public class DetailActivity extends AppCompatActivity {
 	private static final String TAG = DetailActivity.class.getSimpleName();
@@ -55,6 +60,7 @@ public class DetailActivity extends AppCompatActivity {
 		this.movieOverview.setText(this.movie.getOverview());
 
 		this.loadImage();
+		this.setupLikeToggle();
 	}
 
 	private void loadViews() {
@@ -95,6 +101,16 @@ public class DetailActivity extends AppCompatActivity {
 		AppExecutor.getInstance()
 			.getDiskIO()
 			.execute(() -> this.movieDatabase.movieDao().deleteMovie(this.movie.getId()));
+	}
+
+	private void setupLikeToggle() {
+		final MovieDetailsViewModelFactory factory = new MovieDetailsViewModelFactory(this.movieDatabase, this.movie.getId());
+		final MovieDetailsViewModel viewModel = ViewModelProviders.of(this, factory)
+			.get(MovieDetailsViewModel.class);
+
+		viewModel.getMovie().observe(this, movieRow -> {
+			this.movieFavorite.setChecked(movieRow != null);
+		});
 	}
 
 	public void toggleLike(View view) {
