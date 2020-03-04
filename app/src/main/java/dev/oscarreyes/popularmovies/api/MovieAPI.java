@@ -25,7 +25,7 @@ public class MovieAPI {
 		apiKey = key;
 	}
 
-	public static void getPopular(APIResult apiResult) throws Exception {
+	public static void getPopular(MovieCollectionResult movieCollectionResult) throws Exception {
 		Log.d(TAG, "Requesting popular movies");
 
 		final String path = "movie/popular";
@@ -35,11 +35,11 @@ public class MovieAPI {
 
 			MovieCollection collection = gson.fromJson(httpResponse.getBody(), MovieCollection.class);
 
-			apiResult.result(collection);
+			movieCollectionResult.result(collection);
 		});
 	}
 
-	public static void getRated(APIResult apiResult) throws Exception {
+	public static void getRated(MovieCollectionResult movieCollectionResult) throws Exception {
 		Log.d(TAG, "Requesting top rated movies");
 
 		final String path = "movie/top_rated";
@@ -49,7 +49,35 @@ public class MovieAPI {
 
 			MovieCollection collection = gson.fromJson(httpResponse.getBody(), MovieCollection.class);
 
-			apiResult.result(collection);
+			movieCollectionResult.result(collection);
+		});
+	}
+
+	public static void getReviews(int movieId, ReviewCollectionResult reviewCollectionResult) throws Exception {
+		Log.d(TAG, String.format("Requesting reviews for the movie %d", movieId));
+
+		final String path = String.format("movie/%s/reviews", movieId);
+
+		sendRequest(path, httpResponse -> {
+			Gson gson = new Gson();
+
+			ReviewCollection collection = gson.fromJson(httpResponse.getBody(), ReviewCollection.class);
+
+			reviewCollectionResult.result(collection);
+		});
+	}
+
+	public static void getVideos(int movieId, VideoCollectionResult videoCollectionResult) throws Exception {
+		Log.d(TAG, String.format("Requesting reviews for the movie %d", movieId));
+
+		final String path = String.format("movie/%s/videos", movieId);
+
+		sendRequest(path, httpResponse -> {
+			Gson gson = new Gson();
+
+			VideoCollection collection = gson.fromJson(httpResponse.getBody(), VideoCollection.class);
+
+			videoCollectionResult.result(collection);
 		});
 	}
 
@@ -101,7 +129,15 @@ public class MovieAPI {
 		}.execute(uri.toString());
 	}
 
-	public interface APIResult {
+	public interface MovieCollectionResult {
 		void result(MovieCollection collection);
+	}
+
+	public interface ReviewCollectionResult {
+		void result(ReviewCollection collection);
+	}
+
+	public interface VideoCollectionResult {
+		void result(VideoCollection collection);
 	}
 }
