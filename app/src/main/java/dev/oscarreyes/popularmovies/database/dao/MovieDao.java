@@ -18,4 +18,7 @@ public interface MovieDao {
 
 	@Query("SELECT * FROM movie WHERE api_id = :apiId")
 	LiveData<MovieRow> findMovieByApiId(int apiId);
+
+	@Query("SELECT * FROM movie")
+	LiveData<MovieRow[]> findAllMovies();
 }

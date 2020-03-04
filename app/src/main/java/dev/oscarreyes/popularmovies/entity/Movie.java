@@ -2,6 +2,8 @@ package dev.oscarreyes.popularmovies.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import dev.oscarreyes.popularmovies.database.model.MovieRow;
+
 public class Movie {
 	private int id;
 	private String title;
@@ -17,6 +19,15 @@ public class Movie {
 	private String releaseDate;
 
 	public Movie() {
+	}
+
+	public Movie(MovieRow movieRow) {
+		this.id = movieRow.getApiId();
+		this.title = movieRow.getTitle();
+		this.overview = movieRow.getOverview();
+		this.posterPath = movieRow.getPosterPath();
+		this.voteCount = movieRow.getVoteCount();
+		this.releaseDate = movieRow.getReleaseDate();
 	}
 
 	public int getId() {

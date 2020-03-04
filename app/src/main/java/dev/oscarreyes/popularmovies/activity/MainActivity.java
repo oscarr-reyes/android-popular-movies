@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.entity.Movie;
 import dev.oscarreyes.popularmovies.util.SearchCriteria;
+import dev.oscarreyes.popularmovies.viewmodel.MovieBatchViewModel;
 
 public class MainActivity extends AppCompatActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -107,11 +109,21 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			// TODO: Show favorite movies
 			Log.d(TAG, "Show results from Database");
+			this.displayFavoriteMovieCollection();
 		}
 
 		this.setSubtitle();
 
 		return true;
+	}
+
+	private void displayFavoriteMovieCollection() {
+		MovieBatchViewModel viewModel = ViewModelProviders.of(this)
+			.get(MovieBatchViewModel.class);
+
+		viewModel.getMovies().observe(this, movieRows -> {
+			this.dataResponse(MovieCollection.create(movieRows));
+		});
 	}
 
 	private void fetchMovieCollection() {
