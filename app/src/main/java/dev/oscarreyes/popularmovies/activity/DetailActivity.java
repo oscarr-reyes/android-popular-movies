@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView movieDate;
 	private TextView movieVote;
 	private TextView movieOverview;
-	private Button movieFavorite;
+	private MaterialButton movieFavorite;
 	private ImageView movieImage;
 	private Movie movie;
 	private MovieDatabase movieDatabase;
@@ -120,18 +121,14 @@ public class DetailActivity extends AppCompatActivity {
 		Log.d(TAG, String.format("Setting like: %s", likeState));
 
 		int labelResource;
-		Drawable background;
 
 		if (likeState) {
 			labelResource = R.string.movie_detail_dislike_label;
-			background = ContextCompat.getDrawable(this, R.color.colorAccent);
 		} else {
 			labelResource = R.string.movie_detail_like_label;
-			background = ContextCompat.getDrawable(this, R.color.colorPrimary);
 		}
 
 		this.movieFavorite.setText(labelResource);
-		this.movieFavorite.setBackground(background);
 		this.currentLike = likeState;
 	}
 
