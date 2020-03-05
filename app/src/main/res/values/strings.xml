@@ -7,6 +7,7 @@
 	<string name="menu_switch_default">Switch</string>
 	<string name="movie_detail_like_label">Favorite</string>
 	<string name="movie_detail_dislike_label">Un-Favorite</string>
+	<string name="movie_detail_watch_label">Watch trailer</string>
 
 	<!--Tool: Placeholder values-->
 	<string name="tool_movie_name">Underworld</string>

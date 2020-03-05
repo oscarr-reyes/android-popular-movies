@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,12 +19,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import dev.oscarreyes.popularmovies.R;
 import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.database.model.MovieRow;
 import dev.oscarreyes.popularmovies.entity.Movie;
+import dev.oscarreyes.popularmovies.entity.Video;
 import dev.oscarreyes.popularmovies.util.AppExecutor;
+import dev.oscarreyes.popularmovies.util.Youtube;
 import dev.oscarreyes.popularmovies.viewmodel.MovieDetailsViewModel;
 import dev.oscarreyes.popularmovies.viewmodel.MovieDetailsViewModelFactory;
 
@@ -137,6 +142,27 @@ public class DetailActivity extends AppCompatActivity {
 			makeFavorite();
 		} else {
 			removeFavorite();
+		}
+	}
+
+	public void watchTrailer(View view) {
+		try {
+			MovieAPI.getVideos(this.movie.getId(), collection -> {
+				Video movieVideo = collection.getResults().stream()
+					.filter(video -> video.getType().equals("Trailer"))
+					.findFirst()
+					.orElse(null);
+
+				if (movieVideo != null) {
+					String videoKey = movieVideo.getKey();
+
+					Youtube.watch(this, videoKey);
+				}
+			});
+		} catch (Exception e) {
+			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
+
+			e.printStackTrace();
 		}
 	}
 }
