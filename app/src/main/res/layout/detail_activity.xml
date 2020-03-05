@@ -25,24 +25,6 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:padding="8dp">
-
-				<ToggleButton
-					android:id="@+id/movie_detail_button_favorite"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:background="@drawable/button_favorite"
-					android:checked="false"
-					android:onClick="toggleLike"
-					android:text=""
-					android:textOff=""
-					android:textOn="" />
-			</LinearLayout>
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
 				android:orientation="vertical"
 				android:padding="8dp">
 
@@ -81,6 +63,21 @@
 						android:text="MOVIE_VOTE"
 						android:textSize="18sp"
 						tools:text="@string/tool_movie_votes" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+
+					<Button
+						android:id="@+id/movie_detail_button_like"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:onClick="toggleLike"
+						tools:background="@color/colorPrimary"
+						tools:text="@string/tool_movie_like_label" />
 				</LinearLayout>
 
 				<TextView

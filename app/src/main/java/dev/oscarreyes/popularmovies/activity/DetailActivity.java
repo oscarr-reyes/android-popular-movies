@@ -1,12 +1,15 @@
 package dev.oscarreyes.popularmovies.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -30,10 +33,12 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView movieDate;
 	private TextView movieVote;
 	private TextView movieOverview;
-	private ToggleButton movieFavorite;
+	private Button movieFavorite;
 	private ImageView movieImage;
 	private Movie movie;
 	private MovieDatabase movieDatabase;
+
+	private boolean currentLike = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
 		this.movieDate = this.findViewById(R.id.movie_detail_date);
 		this.movieVote = this.findViewById(R.id.movie_detail_vote);
 		this.movieOverview = this.findViewById(R.id.movie_detail_overview);
-		this.movieFavorite = this.findViewById(R.id.movie_detail_button_favorite);
+		this.movieFavorite = this.findViewById(R.id.movie_detail_button_like);
 	}
 
 	private void loadImage() {
@@ -107,14 +112,31 @@ public class DetailActivity extends AppCompatActivity {
 			.get(MovieDetailsViewModel.class);
 
 		viewModel.getMovie().observe(this, movieRow -> {
-			this.movieFavorite.setChecked(movieRow != null);
+			this.setLikeState(movieRow != null);
 		});
 	}
 
-	public void toggleLike(View view) {
-		final boolean isChecked = this.movieFavorite.isChecked();
+	private void setLikeState(boolean likeState) {
+		Log.d(TAG, String.format("Setting like: %s", likeState));
 
-		if (isChecked) {
+		int labelResource;
+		Drawable background;
+
+		if (likeState) {
+			labelResource = R.string.movie_detail_dislike_label;
+			background = ContextCompat.getDrawable(this, R.color.colorAccent);
+		} else {
+			labelResource = R.string.movie_detail_like_label;
+			background = ContextCompat.getDrawable(this, R.color.colorPrimary);
+		}
+
+		this.movieFavorite.setText(labelResource);
+		this.movieFavorite.setBackground(background);
+		this.currentLike = likeState;
+	}
+
+	public void toggleLike(View view) {
+		if (!this.currentLike) {
 			makeFavorite();
 		} else {
 			removeFavorite();
