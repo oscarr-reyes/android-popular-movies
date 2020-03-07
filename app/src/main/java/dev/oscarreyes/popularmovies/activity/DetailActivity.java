@@ -59,8 +59,6 @@ public class DetailActivity extends AppCompatActivity {
 
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-		linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-
 		this.reviewRecycler.setLayoutManager(linearLayoutManager);
 		this.reviewRecycler.setHasFixedSize(true);
 	}
@@ -151,6 +149,7 @@ public class DetailActivity extends AppCompatActivity {
 				ReviewAdapter reviewAdapter = new ReviewAdapter(collection);
 
 				this.reviewRecycler.setAdapter(reviewAdapter);
+				this.reviewRecycler.setVisibility(View.VISIBLE);
 			});
 		} catch (Exception e) {
 			Log.w(TAG, Objects.requireNonNull(e.getMessage()));

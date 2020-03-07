@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_marginBottom="6dp"
 	android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/review_item_author"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+		android:layout_marginBottom="6dp"
 		tools:text="@string/tool_review_author" />
 
 	<TextView
@@ -18,5 +21,6 @@
 		android:ellipsize="end"
 		android:maxLines="3"
 		android:scrollHorizontally="true"
+		android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
 		tools:text="@string/tool_review_content" />
 </LinearLayout>
