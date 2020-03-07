@@ -16,4 +16,6 @@
 	<string name="tool_movie_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium delectus eligendi, est fugiat ipsam iusto labore magnam magni maxime minus molestiae necessitatibus nobis possimus quaerat quasi repudiandae rerum veniam vero?</string>
 	<string name="tool_movie_like_label">Favorite</string>
 	<string name="tool_movie_dislike_label">Un-Favorite</string>
+	<string name="tool_review_author">John Doe</string>
+	<string name="tool_review_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab beatae cum cupiditate deserunt dolores eos hic ipsa iure maiores maxime modi molestias, mollitia nisi nulla ratione, recusandae suscipit tenetur ut.</string>
 </resources>

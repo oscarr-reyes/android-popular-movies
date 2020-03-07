@@ -1,19 +1,16 @@
 package dev.oscarreyes.popularmovies.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
@@ -22,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 import dev.oscarreyes.popularmovies.R;
+import dev.oscarreyes.popularmovies.adapter.ReviewAdapter;
 import dev.oscarreyes.popularmovies.api.MovieAPI;
 import dev.oscarreyes.popularmovies.database.MovieDatabase;
 import dev.oscarreyes.popularmovies.database.model.MovieRow;
@@ -41,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView movieOverview;
 	private MaterialButton movieFavorite;
 	private ImageView movieImage;
+	private RecyclerView reviewRecycler;
 	private Movie movie;
 	private MovieDatabase movieDatabase;
 
@@ -57,6 +56,13 @@ public class DetailActivity extends AppCompatActivity {
 
 		this.movie = new Gson().fromJson(data, Movie.class);
 		this.movieDatabase = MovieDatabase.getInstance(this);
+
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+		linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
+		this.reviewRecycler.setLayoutManager(linearLayoutManager);
+		this.reviewRecycler.setHasFixedSize(true);
 	}
 
 	@Override
@@ -69,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
 		this.movieOverview.setText(this.movie.getOverview());
 
 		this.loadImage();
+		this.loadReviews();
 		this.setupLikeToggle();
 	}
 
@@ -79,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
 		this.movieVote = this.findViewById(R.id.movie_detail_vote);
 		this.movieOverview = this.findViewById(R.id.movie_detail_overview);
 		this.movieFavorite = this.findViewById(R.id.movie_detail_button_like);
+		this.reviewRecycler = this.findViewById(R.id.movie_detail_rv_reviews);
 	}
 
 	private void loadImage() {
@@ -135,6 +143,20 @@ public class DetailActivity extends AppCompatActivity {
 
 		this.movieFavorite.setText(labelResource);
 		this.currentLike = likeState;
+	}
+
+	private void loadReviews() {
+		try {
+			MovieAPI.getReviews(this.movie.getId(), collection -> {
+				ReviewAdapter reviewAdapter = new ReviewAdapter(collection);
+
+				this.reviewRecycler.setAdapter(reviewAdapter);
+			});
+		} catch (Exception e) {
+			Log.w(TAG, Objects.requireNonNull(e.getMessage()));
+
+			e.printStackTrace();
+		}
 	}
 
 	public void toggleLike(View view) {

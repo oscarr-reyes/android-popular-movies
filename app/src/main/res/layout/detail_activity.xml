@@ -90,15 +90,58 @@
 						tools:background="@color/primary" />
 				</LinearLayout>
 
-				<TextView
-					android:id="@+id/movie_detail_overview"
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:background="@android:color/darker_gray" />
+
+				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="8dp"
-					android:lineSpacingExtra="8sp"
-					android:text="MOVIE_OVERVIEW"
-					android:textSize="24sp"
-					tools:text="@string/tool_movie_description" />
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="Reviews"
+						android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/movie_detail_rv_reviews"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:visibility="invisible"/>
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:background="@android:color/darker_gray" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="Description"
+						android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+
+					<TextView
+						android:id="@+id/movie_detail_overview"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:lineSpacingExtra="8sp"
+						android:text="MOVIE_OVERVIEW"
+						android:textSize="24sp"
+						tools:text="@string/tool_movie_description" />
+				</LinearLayout>
+
 			</LinearLayout>
 		</LinearLayout>
 
